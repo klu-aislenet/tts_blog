@@ -1,0 +1,48 @@
+<div class="container">
+<p id="notice"><%= notice %></p>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+
+
+  	<p><%= @blog_post.title %></p>
+
+  	<!--p> Created at <%= @blog_post.created_at.strftime('%m/%d/%y %H:%M:%S') %>. 
+  		Updated at <%= @blog_post.updated_at.strftime('%m/%d/%y %H:%M:%S') %>. </p-->
+  </div>
+  <div class="panel-body">
+
+  		<p> by <strong> <%= link_to @blog_post.user.username, user_posts_path(id: @blog_post.user.id) %></strong> 
+          <span class = "posted-at"> <%= @blog_post.created_at.strftime('%m/%d/%Y at  %l:%M%p') %> </span></p>
+
+  	<!--p><%= @blog_post.user.email %></p>
+  	<p><%= @blog_post.blog_entry %></p-->
+  </div>
+</div>
+
+
+<div class="panel panel-success">
+	<div class="panel-heading">
+	 	Make a Comment
+	</div>
+	<div>
+		<%= render "comments/form"%>
+	</div>
+<% if current_user.id == @blog_post.user.id %>  
+<%= link_to 'Edit', edit_blog_post_path(@blog_post) %> 
+<%= link_to 'Back', blog_posts_path %>
+<%end%>
+<div class="panel panel-default">
+	<div class="panel-header">
+		<h4> Comments </h4>
+	</div>
+	<% @blog_post.comments.each do |comment| %>
+		<div class="panel-body">
+			<p><strong><%= comment.user.email%></strong> said:</p>
+			<p> Created at <%= comment.created_at.strftime('%m/%d/%y %H:%M:%S') %>. </p>
+			<p><%= comment.comment_entry %> </p>
+		</div>
+	<%end%>
+</div>
+
+</div>

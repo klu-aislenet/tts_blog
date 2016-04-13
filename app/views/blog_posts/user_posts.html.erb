@@ -1,0 +1,43 @@
+<h1><%=@user.username %>'s Page</h1>
+
+<p><strong>Name:</strong> <%= @user.name %></p>
+
+<p><strong>Birthday:</strong> <%= @user.birthday.strftime("%m/%d/%Y") %></p>
+
+<div class="row">
+      <% @user.blog_posts.each do |blog_post| %>
+<div class="col-md-12">
+  <div class="panel panel-success">
+  <div class="panel-heading">
+        <%= link_to blog_post.title, blog_post %>
+
+    </div>
+  <div class="panel-body">
+  by <%= blog_post.user.username %>
+        <p><span class='posted-at'>posted at: <%= blog_post.created_at.strftime('%m/%d/%Y at %I:%M%p')%></span></p>
+    <p><%= blog_post.blog_entry[0..250] %>...[<%= link_to "Read More", blog_post%>] </p><br />
+    </div>
+    <div class="panel-footer">
+      <% if current_user.id== blog_post.user.id %>
+      <%= link_to 'Edit', edit_blog_post_path(blog_post), class:"btn btn-warning" %>
+
+      <%= link_to 'Destroy', blog_post, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
+      <% end %>
+    </div>
+  </div>
+
+  </div>
+    <% end %>
+
+</div>
+
+<br>
+<!--It's Not Yours To Edit
+One last thing I'd like to do is hide the Edit/Delete buttons on the index and show pages for those who should not have that ability (i.e., anyone but the original poster)
+
+
+index.html.erb:
+show.html.erb:
+It's Not Yours To Edit
+
+So now j-star is signed in, and she can only edit/delete her own posts.-->
